@@ -11,9 +11,9 @@ function Navbar({ activeTab, setActiveTab, handleLogout }) {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-14">
-            <div className="text-xl font-bold text-blue-600 tracking-tight cursor-pointer" onClick={() => setActiveTab("appointments")}>
+            {/* <div className="text-xl font-bold text-blue-600 tracking-tight cursor-pointer" onClick={() => setActiveTab("appointments")}>
               MedChain
-            </div>
+            </div> */}
             <div className="flex gap-8">
               {navItems.map((item) => (
                 <button
@@ -32,12 +32,9 @@ function Navbar({ activeTab, setActiveTab, handleLogout }) {
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Display a mock Wallet/User info */}
+            
             <div className="hidden md:block text-right">
-              <p className="text-[10px] text-gray-400 font-mono">0x71C...89</p>
-            </div>
-            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200">
-              <User className="w-5 h-5 text-blue-600" />
+              <p className=" text-gray-400 font-mono">Patient Portal</p>
             </div>
             <button className="text-gray-400 hover:text-red-500 transition-colors" onClick={() => handleLogout()}>
               <LogOut className="w-5 h-5" />
