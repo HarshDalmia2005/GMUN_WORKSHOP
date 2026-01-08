@@ -4,11 +4,18 @@ import blockchainService from "../../services/blockchainService";
 import { useWallet } from "../WalletContext";
 
 const KNOWN_PATIENTS = ["patient-001", "patient-002"];
+const DOCTORS = [
+  { id: "1", name: "Dr. Smith (Cardiology)" },
+  { id: "2", name: "Dr. Johnson (Cardiology)" },
+  { id: "3", name: "Dr. Williams (Neurology)" }
+];
 
 export default function DoctorAppointments({ currentDoctorId }) {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { blockchainEnabled, walletAddress } = useWallet();
+
+  const currentDoctor = DOCTORS.find(d => d.id === currentDoctorId);
 
   const fetchAppointments = async () => {
     if (blockchainEnabled && walletAddress) {
@@ -65,7 +72,7 @@ export default function DoctorAppointments({ currentDoctorId }) {
               My Schedule
             </h1>
             <p className="text-sm text-gray-600 mt-1">
-              Viewing appointments for Doctor ID: <span className="font-mono font-bold">{currentDoctorId}</span>
+              Viewing appointments for {currentDoctor?.name || `Doctor ID: ${currentDoctorId}`}
             </p>
           </div>
           <button 
@@ -99,7 +106,7 @@ export default function DoctorAppointments({ currentDoctorId }) {
                 {appointments.map((appt) => (
                   <div key={appt.id} className="p-6 hover:bg-gray-50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                         <User className="w-6 h-6 text-blue-600" />
                       </div>
                       <div>
@@ -127,9 +134,9 @@ export default function DoctorAppointments({ currentDoctorId }) {
                       }`}>
                         {appt.isCompleted ? "Completed" : "Scheduled"}
                       </span>
-                      <button className="p-2 text-gray-400 hover:text-blue-600 border border-gray-200 rounded-lg hover:bg-white transition-all">
+                      {/* <button className="p-2 text-gray-400 hover:text-blue-600 border border-gray-200 rounded-lg hover:bg-white transition-all">
                         <FileText size={18} />
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 ))}
@@ -139,7 +146,7 @@ export default function DoctorAppointments({ currentDoctorId }) {
                 <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <h3 className="text-lg font-medium text-gray-900">No Appointments Found</h3>
                 <p className="text-gray-500 max-w-md mx-auto mt-2">
-                  No appointments found for Doctor ID {currentDoctorId} on the blockchain. 
+                  No appointments found for {currentDoctor?.name || `Doctor ID ${currentDoctorId}`} on the blockchain. 
                   (Checked patients: {KNOWN_PATIENTS.join(", ")})
                 </p>
               </div>
