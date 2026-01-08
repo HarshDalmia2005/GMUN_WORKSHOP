@@ -320,18 +320,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     </section>
                   </div>
 
-                  <div className="mt-12 flex gap-4 pt-6 border-t border-gray-100">
-                    <button className="flex-1 py-3 bg-blue-50 text-blue-600 rounded-xl font-bold hover:bg-blue-100 transition-all">
-                      Generate PDF
-                    </button>
-                    <button
-                      onClick={() => handleDeletePrescription(selectedPrescription.id)}
-                      className="flex items-center justify-center gap-2 px-6 py-3 border border-red-100 text-red-500 rounded-xl hover:bg-red-50 transition-all"
-                    >
-                      <Trash2 size={18} />
-                      Archieve
-                    </button>
-                  </div>
+                  
                 </div>
               </div>
             ) : (

@@ -13,6 +13,12 @@ import {
 import blockchainService from "../../services/blockchainService";
 import { useWallet } from "../WalletContext";
 
+const DOCTORS = [
+  { id: "1", name: "Dr. Smith (Cardiology)" },
+  { id: "2", name: "Dr. Johnson (Cardiology)" },
+  { id: "3", name: "Dr. Williams (Neurology)" }
+];
+
 export default function Prescriptions() {
   const [prescriptions, setPrescriptions] = useState([]);
   const [selectedRxId, setSelectedRxId] = useState(null);
@@ -120,7 +126,7 @@ export default function Prescriptions() {
                       <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase ${rx.status === "Active" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>{rx.status}</span>
                     </div>
                     <p className="font-bold text-gray-900 truncate">{rx.drug}</p>
-                    <p className="text-xs text-gray-500 mt-1">{rx.doctor} • {rx.date}</p>
+                    <p className="text-xs text-gray-500 mt-1">{DOCTORS.find(d => d.id === rx.doctor)?.name || rx.doctor} • {rx.date}</p>
                   </div>
                 ))
               ) : (
@@ -151,12 +157,12 @@ export default function Prescriptions() {
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-gray-400 uppercase mb-3 flex items-center gap-2"><CheckCircle size={14} /> Issuing Doctor</h4>
-                      <p className="text-gray-800 font-medium">{selectedRx.doctor}</p>
+                      <p className="text-gray-800 font-medium">{DOCTORS.find(d => d.id === selectedRx.doctor)?.name || selectedRx.doctor}</p>
                       <p className="text-xs text-gray-500 mt-1">Verified via Blockchain License</p>
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-gray-100">
+                  {/* <div className="pt-6 border-t border-gray-100">
                     <div className="bg-gray-50 p-4 rounded-xl flex items-center justify-between">
                       <div className="truncate pr-4">
                         <p className="text-[10px] text-gray-400 font-bold uppercase">IPFS Content Hash</p>
@@ -164,11 +170,11 @@ export default function Prescriptions() {
                       </div>
                       <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"><Download size={20} /></button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ) : (
-              <div className="h-[500px] flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-3xl text-gray-400 bg-gray-50">
+              <div className="h-125 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-3xl text-gray-400 bg-gray-50">
                 <FileText size={48} className="mb-4 text-gray-200" />
                 <p className="font-medium">Select a record to view details</p>
               </div>
