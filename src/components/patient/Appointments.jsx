@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import BookingForm from "./BookingForm";
 import DoctorInfo from "./DoctorInfo";
 import blockchainService from "../../services/blockchainService";
-import { Upload, AlertCircle, Hash, Calendar, Clock, CheckCircle } from "lucide-react";
+import { AlertCircle, Calendar, Clock, Plus, ArrowLeft } from "lucide-react";
 import { useWallet } from "../WalletContext";
-
 
 const doctorNames = {
   "1": "Dr. Smith",
@@ -14,6 +13,7 @@ const doctorNames = {
 
 function Appointments() {
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [isBooking, setIsBooking] = useState(false); 
   const { blockchainEnabled, setBlockchainEnabled, walletAddress } = useWallet();
   const [patientId] = useState("patient-001");
   const [appointments, setAppointments] = useState([]);
@@ -29,12 +29,10 @@ function Appointments() {
       try {
         const records = await blockchainService.getAppointments(patientId);
         if (records && Array.isArray(records)) {
-          // Original Contract Struct: { string doctorId; uint256 appointmentDate; bool isCompleted; }
           const transformed = records.map((appt, idx) => {
-            // Conversions
-            const rawTimestamp = appt[1]; // Index 1 is the uint256
-            const timestampNum = Number(rawTimestamp); // Convert BigNumber to JS Number
-            const dateObj = new Date(timestampNum * 1000); // Convert seconds to millis
+            const rawTimestamp = appt[1];
+            const timestampNum = Number(rawTimestamp);
+            const dateObj = new Date(timestampNum * 1000);
 
             return {
               id: idx,
@@ -62,48 +60,55 @@ function Appointments() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <main className="flex-1">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">
-                Book an Appointment
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Select a doctor and preferred time
-              </p>
-            </div>
+      <main className="flex-1 max-w-7xl mx-auto px-6 py-8 w-full">
+        
+        {/* Header Section */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              {isBooking ? "Book an Appointment" : "Your Scheduled Appointments"}
+            </h1>
+            <p className="text-sm text-gray-600 mt-1">
+              {isBooking ? "Select a doctor and preferred time" : "Review your upcoming and past medical visits"}
+            </p>
           </div>
-
-          {!blockchainEnabled && (
-            <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center gap-3">
-              <AlertCircle className="text-yellow-600" size={20} />
-              <div>
-                <p className="text-sm font-medium text-yellow-800">Blockchain not connected</p>
-                <p className="text-xs text-yellow-700">Connect your wallet at the top to enable blockchain storage</p>
-              </div>
-            </div>
+          
+          {/* Action Button */}
+          {!isBooking ? (
+            <button 
+              onClick={() => setIsBooking(true)}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition-all font-medium"
+            >
+              <Plus size={18} /> Book Appointment
+            </button>
+          ) : (
+            <button 
+              onClick={() => setIsBooking(false)}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium"
+            >
+              <ArrowLeft size={18} /> Back to Dashboard
+            </button>
           )}
+        </div>
 
-          <div className="grid lg:grid-cols-3 gap-6 mb-12">
-            <div className="lg:col-span-2">
-              <BookingForm 
-                onDoctorSelect={setSelectedDoctorId} 
-                patientId={patientId} 
-                onSuccess={fetchAppointments} 
-              />
-            </div>
-            <div className="lg:col-span-1">
-              <DoctorInfo doctorId={selectedDoctorId} />
+        {/* Status Alerts */}
+        {!blockchainEnabled && (
+          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center gap-3">
+            <AlertCircle className="text-yellow-600" size={20} />
+            <div>
+              <p className="text-sm font-medium text-yellow-800">Blockchain not connected</p>
+              <p className="text-xs text-yellow-700">Connect your wallet to enable storage.</p>
             </div>
           </div>
+        )}
 
-          <div className="border-t border-gray-200 pt-10">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Scheduled Appointments</h2>
+        {/* Main Content Switcher */}
+        {!isBooking ? (
+          <div className="pb-10">
             {isLoading ? (
               <p className="text-gray-500">Loading appointments from blockchain...</p>
             ) : appointments.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {appointments.map((appt) => (
                   <div key={appt.id} className="border border-gray-200 rounded-xl p-5 hover:border-blue-300 transition-colors bg-gray-50">
                     <div className="flex justify-between items-start mb-4">
@@ -135,12 +140,30 @@ function Appointments() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-10 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+              <div className="text-center py-20 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
                 <p className="text-gray-500">No appointments found on blockchain.</p>
               </div>
             )}
           </div>
-        </div>
+        ) : (
+          /* VIEW 2: BOOKING LAYOUT */
+          <div className="grid lg:grid-cols-3 gap-6 mb-12">
+            <div className="lg:col-span-2">
+              <BookingForm 
+                onDoctorSelect={setSelectedDoctorId} 
+                patientId={patientId} 
+                onSuccess={() => {
+                  fetchAppointments();
+                  setIsBooking(false); // Go back to list on success
+                }} 
+              />
+            </div>
+            <div className="lg:col-span-1">
+              <DoctorInfo doctorId={selectedDoctorId} />
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );
