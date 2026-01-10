@@ -83,7 +83,7 @@ function BookingForm({ onDoctorSelect, patientId = "patient-001", onSuccess }) {
 
     } catch (err) {
       console.error(err);
-      setStatus({ type: "error", text: err.message || "Failed to store appointment" });
+      setStatus({ type: "error", text: "Failed to store appointment" });
     }
   };
 
