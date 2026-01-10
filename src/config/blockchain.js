@@ -10,15 +10,7 @@ export const BLOCKCHAIN_CONFIG = {
 
   // Contract Address (Deploy your contract and update this)
   CONTRACT_ADDRESS: import.meta.env.VITE_CONTRACT_ADDRESS || "",
-
-  // Features
-  FEATURES: {
-    storePrescriptions: true,
-    storeAppointments: true,
-    storeDiagnostics: true,
-    storeLabReports: true,
-    accessControl: true,
-  },
+  
 };
 
 // Deployment Instructions
