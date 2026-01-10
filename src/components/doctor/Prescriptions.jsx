@@ -112,7 +112,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
         setIsCreating(false);
         fetchPrescriptions(); // Refresh list after creation
       } catch (err) {
-        showToast({ type: "error", message: err.message || "Failed to store prescription" });
+        showToast({ type: "error", message:"Failed to store prescription"});
       } finally {
         setIsStoring(false);
       }

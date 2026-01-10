@@ -8,131 +8,123 @@ This directory contains all React components for the **Patient** role in the Med
 **Purpose**: Navigation header for patient interface
 
 **Features**:
-- Displays the MedChain logo (clickable to go to appointments)
 - Navigation tabs for different sections:
   - **Appointments**: Book and view appointments
   - **Prescriptions**: Access medical records and prescriptions
-  - **Profile**: Manage personal and medical information
-- User account information display
+- User account information display ("Patient Portal")
 - Logout button
 
 **Props**:
 - `activeTab` (string): Currently active tab
 - `setActiveTab` (function): Function to change active tab
+- `handleLogout` (function): Logout handler
 
 **State Management**: None (receives state from parent)
 
 ---
 
 ### 2. **Appointments.jsx**
-**Purpose**: Patient appointment booking and management interface
+**Purpose**: Patient appointment viewing and booking interface with blockchain integration
 
 **Features**:
-- Appointment booking form with:
-  - Department selection
-  - Doctor selection (dynamically filtered by department)
-  - Date picker with minimum date validation
-  - Time slot selection
-  - Reason for visit (optional textarea)
-- Doctor information panel showing:
-  - Doctor name and specialization
-  - Years of experience
-  - Availability details
-  - Appointment duration and cancellation policy
-- Form validation (disables submit until all required fields are filled)
+- View scheduled appointments fetched from blockchain in card format
+- Switch between dashboard view and booking view
+- Integration with BookingForm and DoctorInfo components for booking
+- Displays appointment details: doctor, date, time, status
+- Loading states and blockchain connection alerts
+- Success handling after booking
 
-**Props**:
-- None (uses local state)
+**Props**: None
 
 **State Variables**:
 - `selectedDoctorId`: ID of selected doctor
+- `isBooking`: Boolean for booking mode
+- `appointments`: Array of appointment data from blockchain
+- `isLoading`: Loading state
 
 **Data**:
-- Mock doctors data organized by department (Cardiology, Neurology, Pediatrics)
-- Time slots: 9:00 AM - 3:00 PM
+- Appointments fetched from blockchain service
+- Doctor names mapping
 
 **Key Functions**:
-- `onDoctorSelect(doctorId)`: Updates selected doctor in parent component
+- `fetchAppointments()`: Fetches and transforms appointments from blockchain
 
 ---
 
 ### 3. **Prescriptions.jsx**
-**Purpose**: Display and manage patient medical records and prescriptions
+**Purpose**: Display and manage patient medical records and prescriptions from blockchain
 
 **Features**:
-- Prescription list view showing:
-  - Drug name and dosage
-  - Prescribing doctor
-  - Issue date
-  - Status (Active/Fulfilled)
-- Detailed prescription view displaying:
-  - Full prescription information
-  - Token ID (blockchain hash reference)
-  - QR code representation
-  - Usage instructions
-  - Issuing doctor with verification status
-  - IPFS content hash for decentralized storage
-- Download button for prescription verification
+- Prescription list view fetched from blockchain
+- Detailed prescription view with QR code, instructions, doctor info
+- Loading states and blockchain connection alerts
+- Selection of prescriptions to view details
 
 **Props**: None
 
 **State Variables**:
+- `prescriptions`: Array of prescription data from blockchain
 - `selectedRxId`: Currently selected prescription ID
+- `isLoading`: Loading state
 
 **Data**:
-- Mock prescriptions from IPFS/blockchain:
-  - Amoxicillin (Active)
-  - Metformin (Fulfilled)
+- Prescriptions fetched from blockchain service
+- Doctor mapping
 
 **Integration Points**:
-- IPFS hashes for decentralized prescription storage
-- Blockchain verification for doctor credentials
+- Blockchain service for fetching prescriptions
+- QR code representation for verification
 
 ---
 
-### 4. **Profile.jsx**
-**Purpose**: Patient profile management and medical information storage
+### 4. **BookingForm.jsx**
+**Purpose**: Form component for booking new appointments with blockchain storage
 
 **Features**:
+- Department selection dropdown
+- Doctor selection filtered by selected department
+- Date picker with minimum date validation
+- Time slot selection grid
+- Reason for visit textarea (optional)
+- Form validation and submission to blockchain
+- Status messages for pending, success, error
 
-**Personal Information Section**:
-- First and last name
-- Email address
-- Phone number
-- Date of birth
-- Gender (Male/Female/Other)
-- Address
-
-**Medical Information Section**:
-- Blood type
-- Height and weight
-- Allergies
-- Chronic conditions
-- Current medications
-
-**Emergency Contact Section**:
-- Contact person's name
-- Relationship to patient
-- Emergency phone number
-
-**Functionality**:
-- Edit mode toggle for updating information
-- Form validation
-- Save/Cancel buttons
-- View mode shows information in read-only format
-- Edit mode shows input fields for modification
-
-**Props**: None
+**Props**:
+- `onDoctorSelect` (function): Callback to update selected doctor
+- `patientId` (string): Patient identifier
+- `onSuccess` (function): Callback after successful booking
 
 **State Variables**:
-- `isEditing`: Boolean for edit mode
-- `formData`: Object containing all profile fields
+- `selectedDepartment`: Selected department
+- `selectedDoctor`: Selected doctor ID
+- `selectedDate`: Selected date
+- `selectedTime`: Selected time slot
+- `reason`: Reason text
+- `status`: Submission status object
 
-**Key Features**:
-- Dynamic InputField component that renders differently based on edit mode
-- Support for text, email, tel, date, select, and textarea inputs
-- Responsive grid layout (2 columns on large screens)
-- Important note about data accuracy
+**Data**:
+- Departments: Cardiology, Neurology, Pediatrics
+- Doctors organized by department
+- Time slots: 9:00 AM to 3:00 PM
+
+**Integration Points**:
+- Blockchain service for storing appointments
+
+---
+
+### 5. **DoctorInfo.jsx**
+**Purpose**: Display information about the selected doctor
+
+**Features**:
+- Doctor name, specialization, experience, availability
+- Appointment duration and cancellation policy
+- Placeholder when no doctor selected
+
+**Props**:
+- `doctorId` (string): ID of the doctor to display
+
+**Data**:
+- Mock doctor details for IDs 1, 2, 3
 
 ---
 
@@ -144,17 +136,19 @@ App (selectedRole === "patient")
 │   └── Tab Navigation
 └── Active Tab Component
     ├── Appointments
-    ├── Prescriptions
-    └── Profile
+    │   ├── BookingForm
+    │   └── DoctorInfo
+    └── Prescriptions
 ```
 
 ## Data Flow
 
 1. **Navigation**: Navbar updates `activeTab` state in App
-2. **Doctor Selection**: Appointments component passes selected doctor to parent
-3. **Doctor Info**: DoctorInfo component receives doctor ID and displays details
-4. **Prescription Selection**: Prescriptions component manages selection state internally
-5. **Profile Updates**: Profile component manages form state and saves locally
+2. **Appointment Viewing**: Appointments fetches and displays appointments from blockchain
+3. **Booking Mode**: Appointments switches to booking view with BookingForm and DoctorInfo
+4. **Doctor Selection**: BookingForm updates selected doctor and notifies DoctorInfo
+5. **Blockchain Submission**: BookingForm submits appointment data to blockchain
+6. **Prescription Viewing**: Prescriptions fetches and displays prescriptions from blockchain
 
 ## Styling
 
@@ -168,25 +162,14 @@ All components use:
 ## Mock Data
 
 The patient components use mock data for:
-- Doctor information (names, specializations, availability)
-- Available time slots
-- Patient prescriptions
-- Department listings
+- Doctor details in DoctorInfo component
+- Department and doctor lists in BookingForm
+- Time slots for appointments
 
-In production, these would be fetched from:
-- Backend API for doctor and appointment data
-- Blockchain/IPFS for prescription data
-- Smart contracts for verification
+Data fetched from blockchain:
+- Appointments in Appointments component
+- Prescriptions in Prescriptions component
+
+All data storage and retrieval is handled via blockchain services for security and decentralization.
 
 ---
-
-## Future Enhancements
-
-- [ ] Integration with backend API for real appointments
-- [ ] Blockchain integration for prescription verification
-- [ ] Real-time appointment status updates
-- [ ] Email notifications for appointment reminders
-- [ ] Payment integration for consultation fees
-- [ ] Chat/video consultation with doctors
-- [ ] Health analytics dashboard
-- [ ] Integration with wearable devices for health metrics
