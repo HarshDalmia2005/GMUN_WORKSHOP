@@ -70,7 +70,7 @@ export function WalletProvider({ children }) {
                   chainName: 'Polygon Amoy',
                   rpcUrls: [BLOCKCHAIN_CONFIG.NETWORK.rpcUrl],
                   blockExplorerUrls: [BLOCKCHAIN_CONFIG.NETWORK.explorer],
-                  nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+                  nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
                 },
               ],
             });

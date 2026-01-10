@@ -22,7 +22,7 @@ export default function DoctorAppointments({ currentDoctorId }) {
 
     setIsLoading(true);
     const relevantAppointments = [];
-    const now = Date.now(); // Current time in milliseconds
+    const now = Date.now();
 
     try {
       for (const patientId of KNOWN_PATIENTS) {

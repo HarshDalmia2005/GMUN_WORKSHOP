@@ -2,8 +2,6 @@ import { ethers } from 'ethers';
 
 // Smart Contract ABI for Medical Records
 const MEDICAL_RECORDS_ABI = [
-  "function storeMedicalRecord(string memory patientId, string memory recordType, string memory ipfsHash) public",
-  "function getMedicalRecords(string memory patientId) public view returns (tuple(string recordType, string ipfsHash, uint256 timestamp)[])",
   "function storePrescription(string memory patientId, string memory doctorId, string memory medication, string memory dosage, uint256 duration) public",
   "function getPrescriptions(string memory patientId) public view returns (tuple(string doctorId, string medication, string dosage, uint256 duration, uint256 timestamp)[])",
   "function storeAppointment(string memory patientId, string memory doctorId, uint256 appointmentDate) public",
