@@ -109,7 +109,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
         setIsCreating(false);
         fetchPrescriptions(); // Refresh list after creation
       } catch (err) {
-        showToast({ type: "error", message: err.message || "Failed to store prescription" });
+        showToast({ type: "error", message: "Failed to store prescription" });
       } finally {
         setIsStoring(false);
       }
@@ -124,7 +124,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
   return (
     <div className="min-h-screen bg-gray-50/30">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        
+
         {/* Page Header */}
         <div className="mb-8 flex items-center justify-between border-b border-gray-100 pb-6">
           <div>
@@ -167,13 +167,13 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
 
         {/* Main Grid: items-start is crucial for sticky column to work */}
         <div className="grid lg:grid-cols-3 gap-8 items-start">
-          
+
           {/* List Section (Left) */}
           <div className="lg:col-span-1 space-y-4">
             <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">
               Recent Patient Records
             </h3>
-            
+
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12 bg-white rounded-2xl border border-gray-100">
                 <Loader className="animate-spin text-blue-600 mb-2" />
@@ -189,11 +189,10 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                         setSelectedPrescription(rx);
                         setIsCreating(false);
                       }}
-                      className={`p-4 rounded-xl cursor-pointer border transition-all duration-200 ${
-                        selectedPrescription?.id === rx.id && !isCreating
+                      className={`p-4 rounded-xl cursor-pointer border transition-all duration-200 ${selectedPrescription?.id === rx.id && !isCreating
                           ? "border-blue-500 bg-blue-50/50 shadow-sm ring-1 ring-blue-500"
                           : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md"
-                      }`}
+                        }`}
                     >
                       <div className="flex justify-between items-start mb-3">
                         <div className="p-2 bg-blue-50 rounded-lg">
@@ -237,7 +236,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     <input
                       type="text"
                       value={newPrescription.patientName}
-                      onChange={(e) => setNewPrescription({...newPrescription, patientName: e.target.value})}
+                      onChange={(e) => setNewPrescription({ ...newPrescription, patientName: e.target.value })}
                       placeholder="e.g. PATIENT-001"
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
@@ -247,7 +246,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     <input
                       type="text"
                       value={newPrescription.drug}
-                      onChange={(e) => setNewPrescription({...newPrescription, drug: e.target.value})}
+                      onChange={(e) => setNewPrescription({ ...newPrescription, drug: e.target.value })}
                       placeholder="e.g. Paracetamol"
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
@@ -257,7 +256,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     <input
                       type="text"
                       value={newPrescription.dosage}
-                      onChange={(e) => setNewPrescription({...newPrescription, dosage: e.target.value})}
+                      onChange={(e) => setNewPrescription({ ...newPrescription, dosage: e.target.value })}
                       placeholder="e.g. 500mg"
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
@@ -267,7 +266,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     <textarea
                       rows={4}
                       value={newPrescription.instructions}
-                      onChange={(e) => setNewPrescription({...newPrescription, instructions: e.target.value})}
+                      onChange={(e) => setNewPrescription({ ...newPrescription, instructions: e.target.value })}
                       placeholder="Take after meals..."
                       className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
                     />
@@ -320,7 +319,7 @@ export default function DoctorPrescriptions({ currentDoctorId }) {
                     </section>
                   </div>
 
-                  
+
                 </div>
               </div>
             ) : (
