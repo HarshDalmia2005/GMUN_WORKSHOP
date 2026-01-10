@@ -55,7 +55,6 @@ export default function Prescriptions() {
               }),
               status: "Active",
               instructions: `Duration: ${rx[3] ? rx[3].toString() : '7'} days`,
-              ipfsHash: "QmBlockchain...",
               type: "Prescription",
             }));
             setPrescriptions(transformed);
@@ -162,15 +161,6 @@ export default function Prescriptions() {
                     </div>
                   </div>
 
-                  {/* <div className="pt-6 border-t border-gray-100">
-                    <div className="bg-gray-50 p-4 rounded-xl flex items-center justify-between">
-                      <div className="truncate pr-4">
-                        <p className="text-[10px] text-gray-400 font-bold uppercase">IPFS Content Hash</p>
-                        <p className="text-xs font-mono text-gray-600 truncate">{selectedRx.ipfsHash}</p>
-                      </div>
-                      <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"><Download size={20} /></button>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             ) : (

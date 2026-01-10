@@ -22,7 +22,6 @@ contract MedicalRecordsStorage {
   mapping(string => Prescription[]) public patientPrescriptions;
   mapping(string => Appointment[]) public patientAppointments;
 
-
   event PrescriptionStored(string indexed patientId, string doctorId, string medication, uint256 timestamp);
   event AppointmentStored(string indexed patientId, string doctorId, uint256 appointmentDate);
  
