@@ -175,7 +175,7 @@ Visit `http://localhost:5173`
 3. MetaMask will pop up - click **"Connect"** to authorize the app
 4. Your wallet address will appear once connected
 
-#### Step 2: Choose Your Role 👤
+#### Step 2: Choose Your Role
 
 After connecting your wallet, you'll see two options:
 - **Patient** - For booking appointments and viewing prescriptions
@@ -185,7 +185,7 @@ Select the role that applies to you.
 
 ---
 
-## 🏥 Using MedChain as a **Patient**
+## Using MedChain as a **Patient**
 
 ### Booking an Appointment
 
@@ -209,7 +209,7 @@ Select the role that applies to you.
    - Reason for visit
 3. You can filter or search for specific appointments
 
-### Viewing Your Prescriptions 💊
+### Viewing Your Prescriptions
 
 1. Click on the **"Prescriptions"** tab
 2. You'll see all prescriptions written by doctors for you
@@ -223,7 +223,7 @@ Select the role that applies to you.
 
 ---
 
-## 👨‍⚕️ Using MedChain as a **Doctor**
+## Using MedChain as a **Doctor**
 
 ### Managing Your Appointments
 
@@ -236,7 +236,7 @@ Select the role that applies to you.
    - Appointment status
 4. Update appointment status as needed (Pending → Confirmed → Completed)
 
-### Writing Prescriptions 📝
+### Writing Prescriptions
 
 1. Go to the **"Prescriptions"** tab
 2. Click **"Write New Prescription"** button
@@ -260,7 +260,7 @@ Select the role that applies to you.
 
 ---
 
-## 🔐 Important Notes
+## Important Notes
 
 - **Blockchain Transactions**: When you write a prescription, you need to pay a small gas fee in cryptocurrency (usually ETH)
 - **Permanent Records**: Once a prescription is saved to the blockchain, it cannot be edited or deleted
@@ -274,7 +274,7 @@ Select the role that applies to you.
 - `npm run preview` - Preview production build
 - `npm run lint` - Check code quality
 
-## Built With Love 💙
+## Built With Love 
 
 This project demonstrates how blockchain technology can be used for secure medical records management. It's built with modern web technologies and designed to be simple yet powerful.
 
